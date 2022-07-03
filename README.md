@@ -1,5 +1,5 @@
 # LeagueOfDreamsEJS
-# For more informations please visit discord.gg/NUDmnGR2ka
+# For more informations please visit <a href="discord.gg/NUDmnGR2ka">our discord server</a>
 
 Server for league of dreams based on ejs and socket.io<br>
 This version is outdated and work only with LoD client version 0.0.4<br>
