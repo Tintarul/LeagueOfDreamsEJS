@@ -13,7 +13,7 @@ Requirements:<br>
 How to start<br>
 1. Change recaptcha public and private key from `/config/passport.js` and `/views/accounts/login.ejs` and `signup.ejs`<br>
 2. Generate new secret key for `/config/secret.js`<br>
-3. Run `node serverLoD.js`<br><br>
+3. Run `npm install` and then `node serverLoD.js`<br><br>
 
 For 24/4 runtime we recommend using PM2<br>
 For more informations please visit <a href="https://www.npmjs.com/package/pm2">npm page of pm2</a><br>
