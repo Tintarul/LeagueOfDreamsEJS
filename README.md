@@ -2,7 +2,6 @@
 # For more informations please visit <a href="https://discord.gg/NUDmnGR2ka">our discord server</a>
 
 Server for league of dreams based on ejs and socket.io<br>
-This version is outdated and work only with LoD client version 0.0.4<br>
 <br>
 Requirements:<br>
  -MongoDB server<br>
