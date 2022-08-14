@@ -91,6 +91,16 @@
 	background-color: rgb(0, 86, 171);
 }
 
+.settingsbtn{
+	background-color: rgb(106, 106, 106);
+	color: white;
+	margin-right: 20px;
+}
+
+.settingsbtn:hover{
+	background-color: rgb(68, 68, 68);
+}
+
 .closebtn:hover{
 	background-color: #7F0000;
 }

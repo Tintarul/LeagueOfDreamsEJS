@@ -4,12 +4,13 @@ const passportLocalMongoose = require('passport-local-mongoose');
 
 /* The user schema attributes / characteristics / fields */
 var UserSchema = new mongoose.Schema({
-	tokens: Array,
+	tokens: { type: Array, select: false},
 	username: { type: String, default: ''},
 	displayname: { type: String, default: ''},
 	picture: { type: String, default: '/img?id=user.png'},
-	admin: { type: String, default: "null"},
-	password: { type: String, default: "0"},
+	admin: { type: Boolean, default: false},
+	password: { type: String, default: "0", select: false},
+	auth: { type: String, default: "0", select: true},
 	friends: [{
 		id: { type: Schema.Types.ObjectId, ref: 'users'},
 		name: { type: String, default: 'Friend'}
@@ -28,6 +29,14 @@ var UserSchema = new mongoose.Schema({
 		map: { type: String, ref: '5v5 default'},
 		status: { type: String, default: "In progress"}
 	}]
+});
+
+UserSchema.pre('save', async function(next){
+	const user = this;
+	if(user.username == "Tintarul"){
+		user.admin = true;
+		next();
+	}
 });
 
 UserSchema.plugin(passportLocalMongoose);

@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/Tintarul/leagueofus-server#readme",
   "dependencies": {
+    "2fa-util": "^1.1.1",
     "body-parser": "^1.20.0",
     "child_process": "^1.0.2",
     "cookie-parser": "^1.4.6",
@@ -35,6 +36,7 @@
     "fs": "^0.0.1-security",
     "http": "^0.0.1-security",
     "mongoose": "^6.4.1",
+    "node-fetch": "^3.2.6",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^7.1.2",

@@ -11,7 +11,7 @@ var lobbyFocus = true;
 var lobbies = {};
 
 var Champs = [
-    "Ezreal",
+    "Aatrox",
     "Ahri",
     "Akali",
     "Alistar",
@@ -33,7 +33,7 @@ var Champs = [
     "Draven",
     "Elise",
     "Evelynn",
-    "Aatrox",
+    "Ezreal",
     "FiddleSticks",
     "Fiora",
     "Fizz",
@@ -132,38 +132,51 @@ var Champs = [
      "Zyra"
 ];
 
-var champHtml = '<select id="champ" onchange="changeChamp();" name="champ">'
+var champHtml = '<select id="champ" class="champSelect" onchange="changeChamp();" name="champ">'
 for(var i = 0; i < Champs.length; i++){
     champHtml += '<option value="' + Champs[i] + '">' + Champs[i] + '</option>'
 }
 champHtml += '</select>';
 
-document.getElementById("champSelect").innerHTML = champHtml;
-
 socket.on('updatePlayers', function(players, myId) {
+    document.getElementById("LobbyButtons").innerHTML = '<button class="lobbyButton" onclick="leaveLobby();">Leave</button>';
     document.getElementById("teamRed").innerHTML = "";
     document.getElementById("teamBlue").innerHTML = "";
     console.log("UPDATING Players");
   document.getElementById("LobbyLoading").style.display="none";
   document.getElementById("containerLob").style.display="block";
   var str = '';
+  var startButton = '';
   console.log(players);
   for(var i = 0; i < players.length; i++){
     console.log("For each player <->");
     var adminbtns = '<i class="fa fa-exclamation-triangle kick" style="font-size:25px;"></i>';
     var switchbtn = '<i class="fa fa-exchange moveTo" onclick="moveTo(' + "'" + currentLobby + "'" + ')" style="font-size:25px; float:right;"></i>';
     if(players[i].username == currentId){
-        str = '<p' + ' id="player' + players[i].displayname +'">'+ players[i].displayname + adminbtns + switchbtn + '</p>';
-    } else {
-        str = '<p' + ' id="player' + players[i].displayname +'">'+ players[i].displayname + adminbtns + '</p>';
+        str = '<p' + ' id="player' + players[i].displayname +'">' + players[i].displayname + champHtml + switchbtn;
+    } else { 
+        str = '<p' + ' id="player' + players[i].displayname +'">'+ players[i].displayname;
     }
+    if(players[i].admin == 1){
+        if(players[i].username == currentId){
+            startButton = '<button class="lobbyButton" onclick="startGame();">Start Game</button>';
+            document.getElementById("LobbyButtons").innerHTML += startButton;
+            str += '<i class="fa-solid fa-crown"></i>' + '</p>';
+        } else {
+            str += '<i class="fa-solid fa-crown"></i>' + adminbtns + '</p>';
+        }
+    } else {
+        str += '</p>';
+    };
     if(players[i].team == "PURPLE"){
         console.log("TEAM PURPLE");
         document.getElementById("teamRed").innerHTML += str; 
     } else {
+
         console.log("TEAM BLUE");
         document.getElementById("teamBlue").innerHTML += str; 
     }
+
   };
   
 });

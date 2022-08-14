@@ -25,6 +25,16 @@ function SendRegister(){
     document.getElementById("RegisterForm").submit();
 }
 
+function NextRegister(){
+    document.getElementById("floatLeft").style.display="none";
+    document.getElementById("floatRight").style.display="block";
+}
+
+function BackRegister(){
+    document.getElementById("floatLeft").style.display="block";
+    document.getElementById("floatRight").style.display="none";
+}
+
 function closeAlert(){
     document.getElementById("alert").style.display="none";
     document.getElementById("alertGreen").style.display="none";

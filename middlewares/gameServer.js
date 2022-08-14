@@ -1,7 +1,7 @@
 var fs = require("fs");
+var Lobby = require("../models/Lobby");
 var child_process = require("child_process");
 let game;
-var fp = require("find-free-port");
 var ports = [];
 var toBeInserted = {
 "runes": {
@@ -55,14 +55,14 @@ var toBeInserted = {
 };
  
 
-exports.startGameServer = function(players, settings, gameServerPort, socket, sockets) {
+exports.startGameServer = function(players, settings, gameServerPort, socket, lobbyId) {
         ports.push(gameServerPort);
         console.dir(ports);
         
         if (players != null){
             var config = {
-                "path": "/Servere/LoD/GameServer/GameServerConsole/bin/Debug/netcoreapp3.0/GameServerConsole",
-                "pathToFolder": "/Servere/LoD/GameServer/GameServerConsole/bin/Debug/netcoreapp3.0/"
+                "path": "C:\\path\\to\\GameServer\\GameServerConsole\\bin\\Debug\\net6.0\\GameServerConsole.exe",
+                "pathToFolder": "C:\\path\\to\\GameServer\\GameServerConsole\\bin\\Debug\\net6.0"
             };
             var objToJSON = new Object();
             objToJSON.players = new Array();
@@ -97,16 +97,16 @@ exports.startGameServer = function(players, settings, gameServerPort, socket, so
             objToJSON["gameInfo"]["COOLDOWNS_ENABLED"] = settings.cooldown;
             objToJSON["gameInfo"]["CHEATS_ENABLED"] = settings.cheats;
             objToJSON["gameInfo"]["MINION_SPAWNS_ENABLED"] = settings.minions;
-            objToJSON["gameInfo"]["CONTENT_PATH"] = "/Servere/LoD/GameServer/Content";
+            objToJSON["gameInfo"]["CONTENT_PATH"] = "C:\\path\\to\\GameServer\\Content";
             objToJSON["gameInfo"]["IS_DAMAGE_TEXT_GLOBAL"] = false;
 
             var args = []; 
             args[0] = "--config"
-            args[1] =  "/Servere/LoD/gameServerconfig/GameInfo" + gameServerPort + ".json"
+            args[1] =  "C:\\path\\to\\GameServer\\Content\\LeagueSandbox-Default\\player\\" + gameServerPort + ".json"
             args[2] = "--port"; 
             args[3] = gameServerPort;
             var readyToJSON = JSON.stringify(objToJSON);
-            fs.writeFile("/Servere/LoD/gameServerconfig/GameInfo" + gameServerPort + ".json", readyToJSON, (err) => {
+            fs.writeFile("C:\\path\\to\\GameServer\\Content\\LeagueSandbox-Default\\player\\" + gameServerPort + ".json", readyToJSON, (err) => {
                 if (err) {
                     //Abort
                     console.log("Cant write config file for game server. Aborting game");
@@ -120,21 +120,48 @@ exports.startGameServer = function(players, settings, gameServerPort, socket, so
                                 console.log("Cant run file, gameServer.exe Aborting sesion for user..");
                                 console.log(error);
                                 socket.emit('abortGame', "Your active match resulted in errors. Curent game is dead and no way to recover.");
-                            } 
+                            } else {
+                                Lobby.findOneAndUpdate({_id: lobbyId}, {$set: {status: "IN-GAME"}}, {new: true}, function(err, doc){
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        console.log("Game server started");
+                                    }
+                                });
+                            }
                             
                         });
                         game.on('error', function(err) {
-                            console.log("Game on error");
-                            socket.emit('abortGame', "It seems the match you where playing ended in error. Curent game is dead and no way to recover.");
+                            Lobby.findOneAndUpdate({_id: lobbyId}, {$set: {status: "Aborted"}}, {new: true}, function(err, doc){
+                                socket.emit('abortGame', "It seems the match you where playing ended in error. Curent game is dead and no way to recover.");
+                            });
                         });
                         game.on('close', function(err) {
-                            console.log('Game on close');
+                            Lobby.findOneAndUpdate({_id: lobbyId}, {$set: {status: "Waiting"}}, {new: true}, function(err, doc){
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log("Game server closed");
+                                }
+                            });
                         });
                         game.on('exit', function(err) {
-                            console.log('Game on exit');
+                            Lobby.findOneAndUpdate({_id: lobbyId}, {$set: {status: "Waiting"}}, {new: true}, function(err, doc){
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log("Game server closed");
+                                }
+                            });
                         });
                         game.on('quit', function(err) {
-                            console.log('Game on quit');
+                            Lobby.findOneAndUpdate({_id: lobbyId}, {$set: {status: "Waiting"}}, {new: true}, function(err, doc){
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log("Game server closed");
+                                }
+                            });
                         });
                     } catch(e){
                         console.log("While creating a game something wrong happend. Aborting game");

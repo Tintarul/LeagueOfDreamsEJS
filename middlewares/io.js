@@ -3,10 +3,131 @@ let lobbies = {};
 var User = require('../models/user');
 var Lobby = require('../models/Lobby');
 let GameServer = require('../middlewares/gameServer.js');
-var maps = {'Old SR': 1, 'Broken Circle Map': 8, 'Old 3v3': 10, 'New SR': 11, 'New 1v1': 12};
+var maps = {'Old SR': 1, 'Old 3v3': 10, 'New SR': 11, 'ARAM': 12, 'Crystal Scar': 8};
 var trueFalse = {'on': true, 'off': false};
 var ports = [];
 var defaultPort = 3001;
+var Champs = [
+    "Aatrox",
+    "Ahri",
+    "Akali",
+    "Alistar",
+    "Amumu",
+    "Anivia",
+    "Annie",
+    "Ashe",
+    "Azir",
+    "Blitzcrank",
+    "Brand",
+    "Braum",
+    "Caitlyn",
+    "Cassiopeia",
+    "Chogath",
+    "Corki",
+    "Darius",
+    "Diana",
+    "DrMundo",
+    "Draven",
+    "Elise",
+    "Evelynn",
+    "Ezreal",
+    "FiddleSticks",
+    "Fiora",
+    "Fizz",
+    "Galio",
+    "Gangplank",
+    "Garen",
+    "Gnar",
+    "Gragas",
+    "Graves",
+    "Hecarim",
+    "Heimerdinger",
+    "Irelia",
+    "Janna",
+    "JarvanIV",
+    "Jax",
+    "Jayce",
+    "Jinx",
+    "Karma",
+    "Karthus",
+    "Kassadin",
+    "Katarina",
+    "Kayle",
+    "Kennen",
+    "Khazix",
+    "KogMaw",
+	"Leblanc",
+    "LeeSin",
+    "Leona",
+    "Lissandra",
+    "Lucian",
+    "Lulu",
+    "Lux",
+    "Malphite",
+    "MasterYi",
+    "MissFortune",
+    "Mordekaiser",
+    "Morgana",
+    "Nami",
+    "Nasus",
+    "Nautilus",
+    "Nidalee",
+    "Nocturne",
+    "Nunu",
+    "Olaf",
+    "Orianna",
+    "Pantheon",
+    "Poppy",
+    "Quinn",
+    "Rammus",
+    "Renekton",
+     "Rengar",
+     "Riven",
+     "Rumble",
+     "Ryze",
+     "Sejuani",
+     "Shaco",
+     "Shen",
+     "Shyvana",
+     "Singed",
+     "Sion",
+     "Sivir",
+     "Skarner",
+     "Sona",
+     "Soraka",
+     "Swain",
+     "Syndra",
+     "Talon",
+     "Taric",
+     "Teemo",
+     "Thresh",
+     "Tristana",
+     "Trundle",
+     "Tryndamere",
+     "TwistedFate",
+     "Twitch",
+     "Udyr",
+     "Urgot",
+     "Varus",
+     "Vayne",
+     "Veigar",
+     "Velkoz",
+     "Vi",
+     "Viktor",
+     "Vladimir",
+     "Volibear",
+     "Warwick",
+     "MonkeyKing",
+     "Xerath",
+     "XinZhao",
+     "Yasuo",
+     "Yorick",
+     "Zac",
+     "Zed",
+     "Ziggs",
+     "Zilean",
+     "Zyra"
+];
 
 module.exports = function(livesession) {
   var io = livesession;
@@ -223,7 +344,7 @@ module.exports = function(livesession) {
 						var settings = result['settings'];
 						var gameServerPort = defaultPort + ports.length;
 						ports.push(gameServerPort);
-						GameServer.startGameServer(players, settings, gameServerPort, socket);
+						GameServer.startGameServer(players, settings, gameServerPort, socket, result._id);
 						for(var i = 0; i < sockets.length; i++){
 							if(sockets[i].lobbyName == socket.lobbyName){
 								for(var a = 0; a < players.length; a++){
@@ -255,20 +376,22 @@ module.exports = function(livesession) {
 						lobby.name = lobbyName;
 						lobby.password = lobbyPassword;
 
-						//translating values
-						lobbyData.map = maps[lobbyData.map];
 
-						lobby['settings'].map = lobbyData.map;
-						lobby['settings'].cheats = lobbyData.cheats;
-						lobby['settings'].mana = lobbyData.mana;
-						lobby['settings'].cooldown = lobbyData.cooldown;
-						lobby['settings'].minions = lobbyData.minions;
-						lobby['settings'].adminForAll = lobbyData.adminForAll;
 						Lobby.findOne({ name: lobby.name }, function(err, existingLobb){
-							if(existingLobb = null) {
-								req.flash('errors', 'Lobby Already exists');
-								return res.redirect('/');
+							if(existingLobb) {
+								console.log("Lobby already exists");
+								return;
 							} else {
+								//translating values
+								lobbyData.map = maps[lobbyData.map];
+
+								lobby['settings'].map = lobbyData.map;
+								console.log("Map: " + lobbyData.map);
+								lobby['settings'].cheats = lobbyData.cheats;
+								lobby['settings'].mana = lobbyData.mana;
+								lobby['settings'].cooldown = lobbyData.cooldown;
+								lobby['settings'].minions = lobbyData.minions;
+								lobby['settings'].adminForAll = lobbyData.adminForAll;
 								lobby.save(function(err, lobb){
 									if (err) console.error(err);
 									socket.lobbyName = lobb.name;
@@ -319,7 +442,11 @@ module.exports = function(livesession) {
 			Lobby.findOne({name: socket['lobbyName']}, function(err, result){
 				for(var i = 0; i < result.players.length; i++){
 					if(result.players[i].username == socket['id']){
-						result.players[i].champ = newChamp;
+						for(var c = 0; c < Champs.length; c++){
+							if(Champs[c] == newChamp){
+								result.players[i].champ = newChamp;
+							}
+						}
 					}
 				}
 				Lobby.findOneAndUpdate({ name: socket['lobbyName'] }, {$set: {"players": result.players}}, {upsert: true}, function(err, doc) {
@@ -449,7 +576,7 @@ module.exports = function(livesession) {
 			});
 		});
 
-		//End of IO connection;
+		//End of IO connection;	
 	});
   
 };

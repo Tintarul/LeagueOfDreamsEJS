@@ -98,7 +98,7 @@ body{
 	top: 30px;
 	position: absolute;
 	z-index: 1;
-	right: 300px;
+	right: 10px;
 }
 
 .ProfileContent{
@@ -112,6 +112,18 @@ body{
 	width: 60%;
 }
 
+.ServersContent{
+	background-color: rgba(0, 47, 57, 0.1);
+	backdrop-filter: blur(16px);
+	z-index: 1;
+	position: absolute;
+	outline: solid 1px rgb(0, 47, 57);
+	margin-left: 0;
+	height: 100%;
+	width: 100%;
+  overflow: hidden;
+}
+
 .LobbyContent {
 	background-color: rgba(0, 47, 57, 0.1);
 	backdrop-filter: blur(16px);
@@ -121,6 +133,143 @@ body{
 	margin-left: 0;
 	height: 90%;
 	width: 100%;
+}
+
+.serversList {
+  position: relative;
+  overflow: auto;
+  width: auto;
+  height: auto;
+
+}
+
+.server {
+  min-height: 15%;
+  margin-top: 20px;
+  border-bottom: 2px solid white;
+  
+  border-left: solid 1px rgb(0, 47, 57);
+  border-right: solid 1px rgb(0, 47, 57);
+  border-top: solid 1px rgb(0, 47, 57);
+  border-bottom: solid 1px rgb(0, 47, 57);
+  background-color: rgba(0, 47, 57, 0.1);
+  backdrop-filter: blur(16px);
+  z-index: 1;
+  position: relative;
+  outline: solid 1px rgb(0, 47, 57);
+  border-bottom-style: calc(var(--border-style) * var(--border-width));
+}
+
+.serverNameContent{
+  margin-left: 50px;
+  height: inherit;
+  float: left;
+  width: auto;
+  min-width: 10%;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 10px;
+}
+
+.serverName{
+  text-align: top;
+}
+
+.serverDescriptionContent{
+  height: inherit;
+  float: left;
+  width: auto;
+  min-width: 10%;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin: 10px;
+}
+
+.serverDescription{
+  text-align: top;
+}
+
+.serverIpContent{
+  height: inherit;
+  float: left;
+  width: auto;
+  min-width: 10%;
+  padding-left: 10px;
+  padding-right: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 10px;
+}
+
+.serverIp{
+  text-align: top;
+}
+
+.serverButtonContent {
+  float: right;
+  margin-right: 10px;
+  
+  width: auto;
+}
+
+.serverButton {
+  position: relative;
+  outline: none;
+  border: none;
+  padding: 20px;
+  padding-left: 25px;
+  padding-right: 30px;
+  letter-spacing: 3px;
+  text-decoration: double;
+  margin-top: 10px;
+  background-color: #002F39;
+  color: white;
+}
+
+.defaultButton {
+  background-color: #002F39;
+  color: white;
+  position: relative;
+  outline: none;
+  border: none;
+  padding: 20px;
+  padding-left: 25px;
+  padding-right: 30px;
+  letter-spacing: 3px;
+  text-decoration: double;
+}
+
+.defaultButton:hover {
+  background-color: #022229;
+  color: white;
+  cursor: pointer;
+}
+
+.serverButton:hover{
+  cursor: pointer;
+  background-color: #004251;
+}
+
+.submitServerPage {
+  position: fixed;
+  z-index: 2;
+  bottom: 30px;
+  right: 30px;
+  background-color: #002F39;
+  letter-spacing: 3px;
+  color: white;
+  padding: 20px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  -webkit-box-shadow: 0px 0px 50px 0px #000000c0;
+  box-shadow: 0px 0px 50px 0px #000000be;
+  transition: 400ms ease-in-out;
+}
+
+.submitServerPage:hover{
+  -webkit-box-shadow: 0px 0px 50px 0px #ffffffc0;
+  box-shadow: 0px 0px 50px 0px #ffffffbe;
 }
 
 .LobbyPage {
@@ -141,6 +290,14 @@ body{
   font-size: 20px;
   background-color: rgb(255, 157, 0);
   color: white;
+}
+
+.champSelect {
+  margin-left: 20px;
+  outline: none;
+  border: none;
+  padding: 10px;
+  letter-spacing: 2px;
 }
 
 .lobbyButton:hover {
@@ -638,6 +795,7 @@ color: white;
     background: transparent;
   }
 }
+
 
 .inGame {
   background-image: url("/file?file=secondbg.png");

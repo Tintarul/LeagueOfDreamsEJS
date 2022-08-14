@@ -13,7 +13,7 @@ var LobbySchema = new Schema({
         admin: { type: Number, default: 0},
 		champ: {type: String, default: "Ezreal"},
 		team: {type: String, default: "PURPLE"}
-    }],
+    }], 
 	settings: {
 		adminForAll: {type: Boolean, default: false},
 		//Next step: move all values from obj.value to obj.settings.value

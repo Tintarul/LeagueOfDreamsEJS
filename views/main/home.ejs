@@ -5,6 +5,7 @@
       </div>
       <div class="menu">
          <button class="menubtn" onclick="Profile();">Profile</button>
+         <button class="menubtn" onclick="Servers();">Servers</button>
          <button class="menubtn" onclick="News();">News</button>
          <button class="menubtn" id="logout-btn" onclick="LogOut();">Logout</button>
       </div>
@@ -28,6 +29,7 @@
    </div>
 
    <div class="friendlist" id="messagelist" style="display: none;">
+
       <ul class="friends">
          <% if(user['chats']) {
             for(var object in user['chats']){%>
@@ -62,6 +64,7 @@
    
    <div class="LobbyContent" id="LobbyContent" style="display: none">
 		<div class="LobbyCreatorContainer">
+         
 			<input type="text" class="input" id="createLobbyname" placeholder="Lobby Name">
 			<br>
 			<input type="text" class="input" id="createLobbypassword" placeholder="Lobby Password" hidden>
@@ -69,10 +72,10 @@
          <label class="dropboxLabel" for="map">Choose map:</label>
          <select class="dropbox" name="map" id="map">
             <option class="dropboxValue" value="New SR">New SR</option>
-           <option class="dropboxValue" value="Old SR">Old SR</option>
-           <option class="dropboxValue" value="Broken Circle Map">Broken Circle Map</option>
+            <option class="dropboxValue" value="Old SR">Old SR</option>
            <option class="dropboxValue" value="Old 3v3">Old 3v3</option>
-           <option class="dropboxValue" value="New 1v1">New 1v1</option>
+           <option class="dropboxValue" value="ARAM">ARAM</option>
+           <option class="dropboxValue" value="Crystal Scar">Crystal Scar</option>
          </select> 
          <br>
          <label class="containerChkBox">Cheats
@@ -109,6 +112,48 @@
 		<p>Friends: <%=user.friends.length %></p>
 		<center>
 	</div>
+
+   <div class="ServersContent" id="ServersContent" style="display: none">
+		<center style="color: white">
+		<br><br><br><br>
+		<div class="serversList" id="serversList">
+         <button class="submitServerPage" onclick="submitServerPage()">Submit your own server</button>
+         <% for(var i = 0; i < servers.length; i++) {%>
+            <div class="server">
+               <div class="serverNameContent">
+                  <h1 class="serverName"><%- servers[i].Name %></h1>
+               </div>
+               <div class="serverDescriptionContent">
+                  <p class="serverDescription"><%- servers[i].Motd %></p>
+               </div>
+               <div class="serverIpContent">
+                  <p class="serverIp"><%- servers[i].IP %></p>
+               </div>
+               <div class="serverButtonContent">
+                  <button id="ConnectServer" class="serverButton" value="<%- servers[i].IP %>" >Connect >></button>
+               </div>
+            </div>
+         <% } %>
+      </div>
+      <div class="submitServer" id="submitPage" style="display:none">
+         <h1>Submit your own server</h1>
+         <div id="message" style="display: none;"></div>
+         <div class="LobbyCreatorContainer" style="margin-top: 10px;">
+         
+            <input type="text" class="input" id="ServerName_submit" value="" placeholder="Server Name">
+            <br>
+            <input type="text" class="input" id="ServerDescription_submit" value="" placeholder="Server description" >
+            <br>
+            <input type="text" class="input" id="ServerIP_submit" value="" placeholder="Server IP without port or '/' slashes" >
+            
+            <br>
+         </div>
+         <button class="defaultButton" onclick="submitServerPage()">Go Back</button>
+         <button onclick="submitServer()" class="defaultButton">Submit Server</button>
+         
+      </div>
+		<center>
+	</div>
 	
 	<div class="NewsContent" id="NewsContent" style="display: none">
 		<center style="color: white">
@@ -140,13 +185,10 @@
 			<div class="team" id="teamBlue" style="float: right">
 			</div>
          <center>
-         <div id="champSelect"></div>
+         
       </center>
          <center> 
-         <div style="margin-bottom: 2px;">
-            
-            <button class="lobbyButton" onclick="startGame();">Start Game</button>
-            <button class="lobbyButton" onclick="leaveLobby();">Leave</button>
+         <div id="LobbyButtons" style="margin-bottom: 2px;">
          </div>
       </center>
 		</div> 

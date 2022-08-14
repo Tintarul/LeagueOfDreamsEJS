@@ -1,13 +1,13 @@
-var express = require('express');
-var mongoose = require('mongoose');
-var bodyParser = require('body-parser');
+var express = require('express'); // Express web server framework
+var mongoose = require('mongoose'); // Mongoose database
+var bodyParser = require('body-parser'); // Body parser for handling POST requests
 var ejs_mate = require('ejs-mate');// page format EJS
-var cookieParser = require('cookie-parser');
-var flash = require('express-flash');
+var cookieParser = require('cookie-parser'); // cookie parser
+var flash = require('express-flash'); // flash messages
 const session = require('express-session');  // session middleware
 const passport = require('passport');  // authentication
-const { Server } = require("socket.io");
-var http = require('http');
+const { Server } = require("socket.io"); // socket.io
+var http = require('http'); // http server
  
 var secret = require('./config/secret');
 
@@ -21,12 +21,12 @@ mongoose.connect(secret.database, function(err){
 	}
 });
 
-// Middleware
-
 app.use(express.static(__dirname + '/public'));
+
 // For Morgan Logger
 // var morgan = require('morgan');
 // app.use(morgan('dev'));
+
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -46,14 +46,14 @@ app.use(function(req, res, next){
 });
 
 app.engine('ejs', ejs_mate);
+var apiRoutes = require('./api/api');
 app.set('view engine', 'ejs');
 var mainRoutes = require('./routes/main');
 var userRoutes = require('./routes/user');
-var apiRoutes = require('./api/api');
 
+app.use(apiRoutes);
 app.use(mainRoutes);
 app.use(userRoutes);
-app.use('/api', apiRoutes);
 app.get('*', function (req, res, next){
 	res.redirect('/');
 });
