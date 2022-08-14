@@ -26,7 +26,7 @@ Requirements:<br>
 7. Run <code>npm install</code> and then <code>node serverLoD.js</code><br>
 8. Connect to ip via Client<br><br>
 
-For 24/4 runtime we recommend using PM2<br>
+For 24/7 runtime we recommend using PM2<br>
 For more informations please visit <a href="https://www.npmjs.com/package/pm2">npm page of pm2</a><br>
  Init:<br>
      - pm2 start serverLoD.js<br>
