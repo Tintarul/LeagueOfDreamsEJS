@@ -15,7 +15,7 @@ Requirements:<br>
 1. Change secretkey and database name in <code>/config/secret.js</code><br>
 2. Range port forward 3000 to 7000<br>
 3. Install <a href="https://nodejs.dev">NodeJS</a> and <a href="https://www.mongodb.com/try/download/community">MongoDB Community Server</a><br>
-4. Compile <a href="https://github.com/LeagueSandbox/GameServer">League Sandbox Project</a> , place the folder in `/middlewares` and rename it as GameServer (Example: `LeagueOfDreamsEJS/middlewares/GameServer/`
+4. Compile <a href="https://github.com/LeagueSandbox/GameServer">League Sandbox Project</a> , place the folder in <code>/middlewares</code> and rename it as GameServer (Example: <code>LeagueOfDreamsEJS/middlewares/GameServer/</code> <br>
 5. Run <code>install_node_modules.bat</code> and then <code>run_windows_platform.bat</code><br>
 6. Connect to ip via <a href="https://github.com/Tintarul/LeagueOfDreamsElectron">Client</a><br><br>
 
