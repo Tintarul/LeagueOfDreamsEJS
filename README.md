@@ -1,6 +1,8 @@
 # LeagueOfDreamsEJS
 # For more informations please visit <a href="https://discord.gg/NUDmnGR2ka">our discord server</a>
 
+<a href="https://www.youtube.com/watch?v=Kx1fhEyY2dk">Video tutorial on youtube, click here</a>
+
 Server for league of dreams based on ejs and socket.io<br>
 <br>
 Requirements:<br>
