@@ -61,8 +61,8 @@ exports.startGameServer = function(players, settings, gameServerPort, socket, lo
         
         if (players != null){
             var config = {
-                "path": "C:\\path\\to\\GameServer\\GameServerConsole\\bin\\Debug\\net6.0\\GameServerConsole.exe",
-                "pathToFolder": "C:\\path\\to\\GameServer\\GameServerConsole\\bin\\Debug\\net6.0"
+                "path": __dirname + "\\GameServer\\GameServerConsole\\bin\\Debug\\net6.0\\GameServerConsole.exe",
+                "pathToFolder": __dirname + "\\GameServer\\GameServerConsole\\bin\\Debug\\net6.0"
             };
             var objToJSON = new Object();
             objToJSON.players = new Array();
@@ -97,18 +97,19 @@ exports.startGameServer = function(players, settings, gameServerPort, socket, lo
             objToJSON["gameInfo"]["COOLDOWNS_ENABLED"] = settings.cooldown;
             objToJSON["gameInfo"]["CHEATS_ENABLED"] = settings.cheats;
             objToJSON["gameInfo"]["MINION_SPAWNS_ENABLED"] = settings.minions;
-            objToJSON["gameInfo"]["CONTENT_PATH"] = "C:\\path\\to\\GameServer\\Content";
+            objToJSON["gameInfo"]["CONTENT_PATH"] = __dirname + "\\GameServer\\Content";
             objToJSON["gameInfo"]["IS_DAMAGE_TEXT_GLOBAL"] = false;
 
             var args = []; 
             args[0] = "--config"
-            args[1] =  "C:\\path\\to\\GameServer\\Content\\LeagueSandbox-Default\\player\\" + gameServerPort + ".json"
+            args[1] =  __dirname + "\\GameServer\\Content\\LeagueSandbox-Default\\" + gameServerPort + ".json"
             args[2] = "--port"; 
             args[3] = gameServerPort;
             var readyToJSON = JSON.stringify(objToJSON);
-            fs.writeFile("C:\\path\\to\\GameServer\\Content\\LeagueSandbox-Default\\player\\" + gameServerPort + ".json", readyToJSON, (err) => {
+            fs.writeFile(__dirname + "\\GameServer\\Content\\LeagueSandbox-Default\\" + gameServerPort + ".json", readyToJSON, (err) => {
                 if (err) {
                     //Abort
+                    console.log(__dirname + "\\GameServer\\Content\\LeagueSandbox-Default\\" + gameServerPort + ".json");
                     console.log("Cant write config file for game server. Aborting game");
                     socket.emit('abortGame', "We couldn't write a new game data. aborting..");
                 } else {
