@@ -51,7 +51,7 @@ router.get('/search', function(req, res, next){
 
 router.get("/", function(req, res, next){
 	if(req.user){
-		let url = "http://164.68.103.55:3000/api/servers/";
+		let url = "http://spoke-group.com:3000/api/servers/";
 
 		http.get(url, function(rsp){
 			var body = '';
