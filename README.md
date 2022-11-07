@@ -1,4 +1,4 @@
-# LeagueOfDreamsEJS
+# LeagueOfDreamsEJS is outdated, server was merged with client <a href="https://github.com/Tintarul/LeagueOfDreams-Electron-EJS"><input type="button></input></a>
 # For more informations please visit <a href="https://discord.gg/NUDmnGR2ka">our discord server</a>
 
 <a href="https://www.youtube.com/watch?v=Kx1fhEyY2dk">Video tutorial on youtube, click here</a>
